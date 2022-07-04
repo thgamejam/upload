@@ -8,11 +8,11 @@ import (
 
 	"upload-file/internal/conf"
 	"upload-file/internal/service"
-	// v1 "upload-file/proto/api/upload-file/v1"
+	v1 "upload-file/proto/api/upload-file/v1"
 )
 
 // NewHTTPServer new a HTTP server.
-func NewHTTPServer(c *conf.Server, service *service.Upload-FileService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, service *service.UploadFileService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -29,6 +29,6 @@ func NewHTTPServer(c *conf.Server, service *service.Upload-FileService, logger l
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	// v1.RegisterUpload-FileHTTPServer(srv, service)
+	v1.RegisterUploadFileHTTPServer(srv, service)
 	return srv
 }

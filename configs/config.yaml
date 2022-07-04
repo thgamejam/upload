@@ -20,5 +20,5 @@ data:
     read_timeout: 0.2s
     write_timeout: 0.2s
 
-upload-file:
+upload_file:
   value: "value"

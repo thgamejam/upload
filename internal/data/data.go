@@ -10,7 +10,7 @@ import (
 // ProviderSet is data providers.
 var ProviderSet = wire.NewSet(
 	NewData,
-	NewUpload-FileRepo,
+	NewUploadFileRepo,
 )
 
 // Data .

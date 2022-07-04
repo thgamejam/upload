@@ -12,7 +12,7 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, service *service.Upload-FileService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, service *service.UploadFileService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
@@ -29,6 +29,6 @@ func NewGRPCServer(c *conf.Server, service *service.Upload-FileService, logger l
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterUpload-FileServer(srv, service)
+	v1.RegisterUploadFileServer(srv, service)
 	return srv
 }

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thjam.upload-file.conf;
+package thjam.upload_file.conf;
 
 option go_package = "app/upload-file/internal/conf;conf";
 
@@ -17,7 +17,7 @@ message CloudBootstrap {
 message Bootstrap {
   Server server = 1;
   Data data = 2;
-  Upload-File upload-file = 3;
+  UploadFile upload_file = 3;
 }
 
 message Server {
@@ -31,6 +31,6 @@ message Data {
   pkg.conf.Queue email_mq = 3;
 }
 
-message Upload-File {
+message UploadFile {
   string value = 1;
 }

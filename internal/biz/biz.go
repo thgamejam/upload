@@ -6,13 +6,13 @@ import (
 )
 
 // ProviderSet is biz providers.
-var ProviderSet = wire.NewSet(NewUpload-FileUseCase)
+var ProviderSet = wire.NewSet(NewUploadFileUseCase)
 
-// Upload-FileRepo is a Upload-File repo.
-type Upload-FileRepo interface {
-	Save(context.Context, *Upload-File) (*Upload-File, error)
-	Update(context.Context, *Upload-File) (*Upload-File, error)
-	FindByID(context.Context, int64) (*Upload-File, error)
-	ListByHello(context.Context, string) ([]*Upload-File, error)
-	ListAll(context.Context) ([]*Upload-File, error)
+// UploadFileRepo is a UploadFile repo.
+type UploadFileRepo interface {
+	Save(context.Context, *UploadFile) (*UploadFile, error)
+	Update(context.Context, *UploadFile) (*UploadFile, error)
+	FindByID(context.Context, int64) (*UploadFile, error)
+	ListByHello(context.Context, string) ([]*UploadFile, error)
+	ListAll(context.Context) ([]*UploadFile, error)
 }

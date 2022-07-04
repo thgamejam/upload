@@ -1,8 +1,8 @@
 package main
 
 import (
-	"flag"
 	"os"
+	"strings"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
@@ -13,6 +13,7 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
 
+	pkgConf "github.com/thgamejam/pkg/conf"
 	pkgConsul "github.com/thgamejam/pkg/consul"
 	"upload-file/internal/conf"
 )
@@ -23,18 +24,9 @@ var (
 	Name string = "thjam.upload-file.service"
 	// Version is the version of the compiled software.
 	Version string
-	// flagConfigPath is the config flag.
-	flagConfigPath string
-	// cloudConfigFile 服务注册，配置中心的配置文件
-	cloudConfigFile string
 
 	id, _ = os.Hostname()
 )
-
-func Init() {
-	flag.StringVar(&flagConfigPath, "conf", "../configs", "配置路径，例如：-conf config.yaml")
-	flag.StringVar(&cloudConfigFile, "cloud", "../configs/cloud.yaml", "配置&发现服务的配置路径，例如：-cloud cloud.yaml")
-}
 
 func newApp(logger log.Logger, rr registry.Registrar, hs *http.Server, gs *grpc.Server) *kratos.App {
 	return kratos.New(
@@ -52,8 +44,8 @@ func newApp(logger log.Logger, rr registry.Registrar, hs *http.Server, gs *grpc.
 }
 
 func main() {
-	Init()
-	flag.Parse()
+	conf.InitEnv()
+
 	logger := log.With(log.NewStdLogger(os.Stdout),
 		"ts", log.DefaultTimestamp,
 		"caller", log.DefaultCaller,
@@ -64,28 +56,20 @@ func main() {
 		"span.id", tracing.SpanID(),
 	)
 
-	cloudConfig := config.New(
-		config.WithSource(
-			file.NewSource(cloudConfigFile), // 获取本地的配置文件
-		),
-	)
-	defer cloudConfig.Close()
-	// 必须进行一次合并
-	if err := cloudConfig.Load(); err != nil {
-		panic(err)
+	var pc pkgConf.Consul
+	pc = pkgConf.Consul{
+		Address:    strings.Split(conf.GetEnv().ConsulURL, "://")[1],
+		Scheme:     strings.Split(conf.GetEnv().ConsulURL, "://")[0],
+		Datacenter: conf.GetEnv().ConsulDatacenter,
+		Path:       conf.GetEnv().ConsulConfDirectory,
 	}
 
-	var consulConfig conf.CloudBootstrap
-	if err := cloudConfig.Scan(&consulConfig); err != nil {
-		panic(err)
-	}
-
-	consulUtil := pkgConsul.New(consulConfig.Consul)
+	consulUtil := pkgConsul.New(&pc)
 
 	serviceConfig := config.New(
 		config.WithSource(
-			file.NewSource(flagConfigPath), // 获取本地的配置文件
-			consulUtil.NewConfigSource(),   // 获取配置中心的配置文件
+			file.NewSource(conf.GetEnv().ConfigDirectory), // 获取本地的配置文件
+			consulUtil.NewConfigSource(),                  // 获取配置中心的配置文件
 		),
 	)
 	defer serviceConfig.Close()

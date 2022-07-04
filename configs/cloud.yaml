@@ -1,5 +1,0 @@
-consul:
-  address: "0.0.0.0:8500"
-  scheme: "http"
-  datacenter: "dev"
-  path: "thjam.upload-file.service/dev/"

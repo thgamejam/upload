@@ -1,18 +1,35 @@
 package service
 
 import (
+	"context"
+	"github.com/go-kratos/kratos/v2/log"
+	"upload-file/internal/middleware"
+
 	"upload-file/internal/biz"
-	v1 "upload-file/proto/api/upload-file/v1"
+	pb "upload-file/proto/api/upload-file/v1"
 )
 
-// UploadFileService is a upload-file service.
 type UploadFileService struct {
-	v1.UnimplementedUploadFileServer
+	pb.UnimplementedUploadFileServer
 
-	uc *biz.UploadFileUseCase
+	uc  *biz.UploadFileUseCase
+	log *log.Helper
 }
 
-// NewUploadFileService new a upload-file service.
-func NewUploadFileService(uc *biz.UploadFileUseCase) *UploadFileService {
-	return &UploadFileService{uc: uc}
+func NewUploadFileService(uc *biz.UploadFileUseCase, logger log.Logger) *UploadFileService {
+	return &UploadFileService{
+		uc:  uc,
+		log: log.NewHelper(logger),
+	}
+}
+
+func (s *UploadFileService) UploadFile(ctx context.Context, req *pb.UploadFileReq) (*pb.UploadFileReply, error) {
+	file, ok := middleware.FromUploadFileContext(ctx)
+	log.Debugf("ok=%v, file=%v\n", ok, file)
+	log.Debugf("req=%v\n", req)
+	return &pb.UploadFileReply{}, nil
+}
+
+func (s *UploadFileService) UploadSliceFile(ctx context.Context, req *pb.UploadSliceFileReq) (*pb.UploadFileReply, error) {
+	return &pb.UploadFileReply{}, nil
 }

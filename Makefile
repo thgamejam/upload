@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-PWD = "."
+PWD = .
 
 GOPATH = $(shell go env GOPATH)
 VERSION = $(shell git describe --tags --always)
@@ -10,10 +10,13 @@ GENERATE_FILES = $(shell find $(PWD) -name "*.pb.go")
 GENERATE_FILES += $(shell find $(PWD) -name "*.pb.validate.go")
 GENERATE_FILES += $(shell find $(PWD) -name "*.swagger.json")
 
-CONF_PROTO_DIR = "$(PWD)/internal/conf"
-API_PROTO_DIR = "$(PWD)/proto/api"
-PKG_CONF_DIR = "$(PWD)/proto/conf"
-THIRD_PARTY_PROTO_DIR = "$(PWD)/proto/third_party"
+CONF_PROTO_DIR = $(PWD)/internal/conf
+API_PROTO_DIR = $(PWD)/proto/api
+PKG_CONF_DIR = $(PWD)/proto/conf
+THIRD_PARTY_PROTO_DIR = $(PWD)/proto/third_party
+
+SERVICE_DIR = $(PWD)/internal/service
+SERVICE_FILE = $(SERVICE_DIR)/$(PROJECT_NAME).go
 
 CONF_PROTO_FILES = $(shell find $(CONF_PROTO_DIR) -name "*.proto")
 API_PROTO_FILES = $(shell find $(API_PROTO_DIR) -name "*.proto" -type f ! -name "error_reason.proto")
@@ -87,6 +90,13 @@ api:
            --openapiv2_opt logtostderr=true \
            --openapiv2_opt json_names_for_fields=false \
 	       $(API_PROTO_FILES)
+
+.PHONY: service
+service:
+	if [ -f "./internal/service/upload-file.go" ]; then \
+	  mv $(SERVICE_FILE) $(SERVICE_FILE).d ; \
+	fi
+	kratos proto server "$(API_PROTO_DIR)/$(PROJECT_NAME)/v1/upload_file.proto" -t "$(SERVICE_DIR)"
 
 .PHONY: build
 # 构建

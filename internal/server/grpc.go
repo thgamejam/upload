@@ -7,6 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 
 	"upload-file/internal/conf"
+	"upload-file/internal/middleware"
 	"upload-file/internal/service"
 	v1 "upload-file/proto/api/upload-file/v1"
 )
@@ -17,6 +18,7 @@ func NewGRPCServer(c *conf.Server, service *service.UploadFileService, logger lo
 		grpc.Middleware(
 			recovery.Recovery(),
 			validate.Validator(),
+			middleware.UploadFileMiddleware(),
 		),
 	}
 	if c.Grpc.Network != "" {

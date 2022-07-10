@@ -22,21 +22,21 @@ services:
     networks:
       - default-net
 
-  mariadb:
-    image: "mariadb:10.6.8"
-    container_name: mariadb
-    ports:
-      - "3306:3306"
-    environment:
-      - MARIADB_ROOT_PASSWORD=123456
-    networks:
-      - default-net
-
   redis:
     image: "redis:6.2.7"
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - default-net
+
+  minio:
+    image: "minio/minio:RELEASE.2022-07-08T00-05-23Z"
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
     networks:
       - default-net
 

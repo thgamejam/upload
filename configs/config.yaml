@@ -3,22 +3,22 @@ server:
     addr: 0.0.0.0:8000
     timeout: 1s
   grpc:
-    addr: 0.0.0.0:9000
+    addr: 0.0.0.0:6000
     timeout: 1s
 
 data:
-  database:
-    driver: mysql
-    source: root:123456@tcp(0.0.0.0:3306)/touhou_gamejam?charset=utf8mb4&parseTime=True&loc=Local
-    max_idle_conn: 50
-    max_open_conn: 100
-    conn_max_lifetime: 30s
   redis:
     network: tcp
     addr: 0.0.0.0:6379
     password: ""
     read_timeout: 0.2s
     write_timeout: 0.2s
+  object_storage:
+    domain: 0.0.0.0:9000
+    access_key_id: miniotest
+    secret_access_key: miniotest
+    location: dev
+    secure: false
 
 upload_file:
-  value: "value"
+  secret_key: "test"

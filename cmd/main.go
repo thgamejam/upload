@@ -3,12 +3,12 @@ package main
 import (
 	"os"
 	"strings"
+	"time"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
 	"github.com/go-kratos/kratos/v2/config/file"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
@@ -25,7 +25,7 @@ var (
 	// Version is the version of the compiled software.
 	Version string
 
-	id, _ = os.Hostname()
+	id string
 )
 
 func newApp(logger log.Logger, rr registry.Registrar, hs *http.Server, gs *grpc.Server) *kratos.App {
@@ -44,6 +44,9 @@ func newApp(logger log.Logger, rr registry.Registrar, hs *http.Server, gs *grpc.
 }
 
 func main() {
+	id, _ = os.Hostname()
+	id += "_" + time.Now().Format("20060102150405")
+
 	conf.InitEnv()
 
 	logger := log.With(log.NewStdLogger(os.Stdout),
@@ -52,8 +55,8 @@ func main() {
 		"service.id", id,
 		"service.name", Name,
 		"service.version", Version,
-		"trace.id", tracing.TraceID(),
-		"span.id", tracing.SpanID(),
+		//"trace.id", tracing.TraceID(),
+		//"span.id", tracing.SpanID(),
 	)
 
 	var pc pkgConf.Consul

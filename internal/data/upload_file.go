@@ -4,8 +4,10 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/minio/minio-go/v7"
 
 	"upload-file/internal/biz"
+	v1 "upload-file/proto/api/upload-file/v1"
 )
 
 type uploadFileRepo struct {
@@ -21,22 +23,12 @@ func NewUploadFileRepo(data *Data, logger log.Logger) biz.UploadFileRepo {
 	}
 }
 
-func (r *uploadFileRepo) Save(ctx context.Context, b *biz.UploadFile) (*biz.UploadFile, error) {
-	return b, nil
-}
-
-func (r *uploadFileRepo) Update(ctx context.Context, b *biz.UploadFile) (*biz.UploadFile, error) {
-	return b, nil
-}
-
-func (r *uploadFileRepo) FindByID(context.Context, int64) (*biz.UploadFile, error) {
-	return nil, nil
-}
-
-func (r *uploadFileRepo) ListByHello(context.Context, string) ([]*biz.UploadFile, error) {
-	return nil, nil
-}
-
-func (r *uploadFileRepo) ListAll(context.Context) ([]*biz.UploadFile, error) {
-	return nil, nil
+func (r *uploadFileRepo) Save(ctx context.Context, b *biz.UploadFileInfo) error {
+	_, err := r.data.OSS.GetClient().PutObject(ctx, b.Bucket, b.Name, *b.File, -1,
+		minio.PutObjectOptions{ContentType: "application/octet-stream"})
+	if err != nil {
+		log.Errorf("oss upload failed. err=%v ctx=%v", err, ctx)
+		return v1.ErrorInternalServer("oss upload failed")
+	}
+	return nil
 }

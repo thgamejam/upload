@@ -6,8 +6,8 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/minio/minio-go/v7"
 
-	"upload-file/internal/biz"
-	v1 "upload-file/proto/api/upload-file/v1"
+	"upload/internal/biz"
+	v1 "upload/proto/api/upload/v1"
 )
 
 type uploadFileRepo struct {

@@ -10,11 +10,11 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/google/wire"
-	"upload-file/internal/biz"
-	"upload-file/internal/conf"
-	"upload-file/internal/data"
-	"upload-file/internal/server"
-	"upload-file/internal/service"
+	"upload/internal/biz"
+	"upload/internal/conf"
+	"upload/internal/data"
+	"upload/internal/server"
+	"upload/internal/service"
 )
 
 // wireApp init kratos application.

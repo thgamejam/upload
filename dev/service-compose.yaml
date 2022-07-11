@@ -1,9 +1,9 @@
 version: '3.1'
 
 services:
-  upload-file:
-    image: "upload-file"
-    container_name: upload-file
+  upload:
+    image: "upload"
+    container_name: upload
     ports:
       - "9000:9000"
     volumes:

@@ -6,7 +6,7 @@ import (
 
 	"github.com/thgamejam/pkg/cache"
 	"github.com/thgamejam/pkg/object_storage"
-	"upload-file/internal/conf"
+	"upload/internal/conf"
 )
 
 // ProviderSet is data providers.

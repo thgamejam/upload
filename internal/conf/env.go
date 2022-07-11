@@ -10,7 +10,7 @@ type Env struct {
 	ConsulURL string
 	// ConsulDatacenter 使用的consul数据中心, 例如: "dev"
 	ConsulDatacenter string
-	// ConsulConfDirectory 使用的consul配置路径, 例如:, "thjam.upload-file.service/dev/"
+	// ConsulConfDirectory 使用的consul配置路径, 例如:, "thjam.upload.service/dev/"
 	ConsulConfDirectory string
 
 	// ConfigDirectory 配置文件路径
@@ -24,7 +24,7 @@ var env Env = Env{
 	// 添加默认值
 	ConsulURL:              "http://0.0.0.0:8500",
 	ConsulDatacenter:       "dev",
-	ConsulConfDirectory:    "thjam.upload-file.service/dev/",
+	ConsulConfDirectory:    "thjam.upload.service/dev/",
 	ConfigDirectory:        "../configs",
 	TemporaryFileDirectory: "../tmp",
 }

@@ -11,10 +11,10 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/http"
 
-	"upload-file/internal/conf"
-	"upload-file/internal/middleware"
-	"upload-file/internal/service"
-	v1 "upload-file/proto/api/upload-file/v1"
+	"upload/internal/conf"
+	"upload/internal/middleware"
+	"upload/internal/service"
+	v1 "upload/proto/api/upload/v1"
 )
 
 // NewHTTPServer new a HTTP server.

@@ -91,12 +91,34 @@ api:
            --openapiv2_opt json_names_for_fields=false \
 	       $(API_PROTO_FILES)
 
+.PHONY: all
+# 生成所有代码
+all:
+	@make api;
+	@make error;
+	@make config;
+	@make wire;
+
 .PHONY: service
+# 生成service文件代码
 service:
-	if [ -f "./internal/service/upload-file.go" ]; then \
+	if [ -f "./internal/service/$(PROJECT_NAME).go" ]; then \
 	  mv $(SERVICE_FILE) $(SERVICE_FILE).d ; \
 	fi
-	kratos proto server "$(API_PROTO_DIR)/$(PROJECT_NAME)/v1/upload_file.proto" -t "$(SERVICE_DIR)"
+	kratos proto server "$(API_PROTO_DIR)/$(PROJECT_NAME)/v1/$(PROJECT_NAME).proto" -t "$(SERVICE_DIR)"
+
+.PHONY: generate
+# 代码生成
+generate:
+	go get github.com/google/wire/cmd/wire
+	go install github.com/google/wire/cmd/wire@latest
+	go generate ./...
+
+.PHONY: remove
+# 移除所有生成代码
+remove:
+	@echo '移除所有生成代码...'
+	@rm $(GENERATE_FILES)
 
 .PHONY: build
 # 构建
@@ -116,27 +138,6 @@ run:
 docker:
 	@echo '构建docker镜像...'
 	@docker build -t $(PROJECT_NAME):$(VERSION) .
-
-.PHONY: generate
-# 代码生成
-generate:
-	go get github.com/google/wire/cmd/wire
-	go install github.com/google/wire/cmd/wire@latest
-	go generate ./...
-
-.PHONY: all
-# 生成所有代码
-all:
-	@make api;
-	@make error;
-	@make config;
-	@make wire;
-
-.PHONY: remove
-# 移除所有生成代码
-remove:
-	@echo '移除所有生成代码...'
-	@rm $(GENERATE_FILES)
 
 # 显示帮助
 help:

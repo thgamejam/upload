@@ -11,7 +11,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 
 	"github.com/thgamejam/pkg/uuid"
-	v1 "upload-file/proto/api/upload-file/v1"
+	v1 "upload/proto/api/upload/v1"
 )
 
 var validationCRC32 = func(crc32hash string, file *multipart.File) error {

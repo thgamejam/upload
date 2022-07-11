@@ -15,13 +15,13 @@ import (
 
 	pkgConf "github.com/thgamejam/pkg/conf"
 	pkgConsul "github.com/thgamejam/pkg/consul"
-	"upload-file/internal/conf"
+	"upload/internal/conf"
 )
 
 // go build -ldflags "-X main.Version=x.y.z"
 var (
 	// Name is the name of the compiled software.
-	Name string = "thjam.upload-file.service"
+	Name string = "thjam.upload.service"
 	// Version is the version of the compiled software.
 	Version string
 

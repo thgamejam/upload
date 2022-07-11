@@ -3,14 +3,14 @@ package service
 import (
 	"context"
 	"github.com/thgamejam/pkg/uuid"
-	"upload-file/internal/conf"
+	"upload/internal/conf"
 
 	"github.com/go-kratos/kratos/v2/log"
 
 	"github.com/thgamejam/pkg/authentication"
-	"upload-file/internal/biz"
-	"upload-file/internal/middleware"
-	pb "upload-file/proto/api/upload-file/v1"
+	"upload/internal/biz"
+	"upload/internal/middleware"
+	pb "upload/proto/api/upload/v1"
 )
 
 type UploadFileService struct {

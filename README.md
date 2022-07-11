@@ -1,4 +1,4 @@
-# upload-file
+# upload
 
 ## 项目结构
 
@@ -65,10 +65,10 @@ make help
 ## Docker
 ```bash
 # 构建
-docker build -t upload-file:<version> .
+docker build -t upload:<version> .
 
 # 运行
-docker run --rm -p 8000:8000 -p 9000:9000 -v </path/to/your/configs>:/data/conf upload-file:<version>
+docker run --rm -p 8000:8000 -p 9000:9000 -v </path/to/your/configs>:/data/conf upload:<version>
 
 # docker-compose 运行
 cd dev
